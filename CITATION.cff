@@ -6,18 +6,18 @@ type: software
 authors:
   - family-names: "Ünalan"
     given-names: "Musa Ege"
-    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    orcid: "https://orcid.org/0000-0003-2246-8600"
   - family-names: "Demirci"
     given-names: "Serkan"
-    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    orcid: "https://orcid.org/0000-0001-8805-5310"
   - family-names: "Zellmann"
     given-names: "Stefan"
-    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    orcid: "https://orcid.org/0000-0003-2880-9090"
   - family-names: "Güdükbay"
     given-names: "Uğur"
-    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    orcid: "https://orcid.org/0000-0003-2462-6959"
 
-repository-code: "https://github.com/Bilkent-CG/tet-amr-rendering"
+repository-code: "https://github.com/Bilkent-ModVis/tet-amr-rendering"
 
 keywords:
   - direct volume rendering
