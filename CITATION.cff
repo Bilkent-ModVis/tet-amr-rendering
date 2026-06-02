@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+title: "Direct Volume Rendering of Tree-Based Tetrahedral Adaptive Mesh Refinement Data"
+message: "If you use this software, please cite both the software and the associated paper."
+type: software
+
+authors:
+  - family-names: "Ünalan"
+    given-names: "Musa Ege"
+    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+  - family-names: "Demirci"
+    given-names: "Serkan"
+    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+  - family-names: "Zellmann"
+    given-names: "Stefan"
+    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+  - family-names: "Güdükbay"
+    given-names: "Uğur"
+    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+
+repository-code: "https://github.com/Bilkent-CG/tet-amr-rendering"
+
+keywords:
+  - direct volume rendering
+  - volume rendering
+  - tetrahedral adaptive mesh refinement
+  - tet-amr
+  - ray tracing
+  - optix
+  - scientific visualization
+
+license: MIT
+
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Ünalan"
+      given-names: "Musa Ege"
+    - family-names: "Demirci"
+      given-names: "Serkan"
+    - family-names: "Zellmann"
+      given-names: "Stefan"
+    - family-names: "Güdükbay"
+      given-names: "Uğur"
+  title: "Direct Volume Rendering of Tree-Based Tetrahedral Adaptive Mesh Refinement Data"
+  journal: "Computers & Graphics"
+  year: 2026
+  volume: 138
+  pages: "104638"
+  doi: "10.1016/j.cag.2026.104638"
+  url: "https://www.sciencedirect.com/science/article/pii/S0097849326001093"
