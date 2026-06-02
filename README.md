@@ -1,10 +1,11 @@
 # Direct Volume Rendering of Tree-based Tetrahedral Adaptive Mesh Refinement Data
 
-Official implementation of the paper:
+Official implementation of the paper: 
 
 > **Direct Volume Rendering of Tree-Based Tetrahedral Adaptive Mesh Refinement Data**  
 > Musa Ege Ünalan, Serkan Demirci, Stefan Zellmann, Uğur Güdükbay  
 > *Computers & Graphics, Volume 138, 2026*
+> **DOI:** [10.1016/j.cag.2026.104638](https://doi.org/10.1016/j.cag.2026.104638)
 
 ## Overview
 
