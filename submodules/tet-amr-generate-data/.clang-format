@@ -1,0 +1,6 @@
+---
+BasedOnStyle: LLVM
+AlignArrayOfStructures: Left
+AlignEscapedNewlines: Left
+AlwaysBreakTemplateDeclarations: Yes
+IndentWidth: 4

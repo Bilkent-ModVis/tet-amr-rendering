@@ -27,11 +27,80 @@ The following third-party libraries were used in the development of this work:
 - [Tetgen](https://wias-berlin.de/software/index.jsp?id=TetGen&lang=1)
 - [CLI11](https://github.com/cliutils/cli11)
 
-## Building
+## Build and Usage
 
+### Prerequisites
+
+All development and benchmarking for this work were performed on Ubuntu 24.04.
+
+* Install [CUDA Toolkit 12.8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
+    * CUDA 13 is not supported because it breaks compatibility with the version of OWL used in this project.
+* Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to the OptiX installation directory.
+* Install the required system packages. On Ubuntu 24.04.4:
+
+```bash
+sudo apt install build-essential git cmake zstd \
+    libxrandr-dev libxinerama-dev libxcursor-dev \
+    libxi-dev libglfw3-dev
 ```
-TODO
+
+#### VTK
+
+VTK is required. However, the `libvtk9-dev` package provided by Ubuntu 24.04 does not correctly read the volume VTU
+files used by this project.
+
+To avoid this issue, [build VTK from source](https://docs.vtk.org/en/latest/build_instructions/index.html) and point CMake to the installation directory with `-DVTK_DIR`. Versions
+9.3.1 and 9.6.2 have been tested successfully.
+
+### Building
+
+After cloning the repository:
+
+```bash
+git submodule update --init --recursive
+
+mkdir build
+cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DVTK_DIR=$VTK_INSTALL_DIR \
+      ..
+
+cmake --build . -j
 ```
+
+The build produces the following binaries:
+
+| Binary                               | Description                                                                                          |
+|--------------------------------------|------------------------------------------------------------------------------------------------------|
+| `tet_amr_volume_render_b`            | Tet-AMR Volume Renderer with barycentric coordinate traversal                                        |
+| `tet_amr_volume_render_p`            | Tet-AMR Volume Renderer with point-plane test traversal                                              |
+| `tet_amr_volume_render_b_m`          | Tet-AMR Volume Renderer with barycentric coordinate traversal, using macrocells                      |
+| `tet_amr_unstructured_volume_render` | Unstructured renderer for Tet-AMR data                                                               |
+| `util/tf_reduce_opacity_progressive` | The tool used to create the transfer functions for the `mri_tf_opacity_steps_benchmark.py` benchmark |
+
+#### Usage
+
+The renderers can be run as:
+
+```bash
+./tet_amr_volume_render_b [OPTIONS] <tet_amr_volume.vtu>
+```
+
+To view all available command-line options:
+
+```bash
+./tet_amr_volume_render_b --help
+```
+
+#### File Cache
+
+By default, the renderer caches processed volumes in a `.tet_cache` directory created in the current working directory. This behavior can be disabled before
+compilation by removing the `USE_FILE_CACHE` macro definition from main.cpp.
+
+### Benchmarks
+
+The benchmarks that reproduce the results in the related publication are available in the `benchmarks` directory.
 
 ## Citation
 
