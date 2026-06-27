@@ -1,3 +1,4 @@
+import re
 import subprocess
 from pathlib import Path
 
@@ -92,9 +93,13 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
         options = common_options
 
     Path(out_dir).mkdir(parents=True, exist_ok=True)
-    results_file = Path(out_dir) / 'results.txt'
+    log_file = Path(out_dir) / 'log.txt'
 
-    with open(results_file, 'w') as f:
+    times_ms = []
+    times_us = []
+    zero_density_macrocells = []
+
+    with open(log_file, 'w') as f:
         for config in configs:
             tmp_flags = flags
             if unstructured and 'unstructured_renderer_flags' in config:
@@ -106,6 +111,20 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
             result = subprocess.run(cmd, capture_output=True, text=True)
             print("Done")
 
+            match = re.search(r"Rendering took\s+(\d+)\s+ms\s*/\s*(\d+)\s+us", result.stdout)
+            if match:
+                times_ms.append(match.group(1))
+                times_us.append(match.group(2))
+            else:
+                times_ms.append("err")
+                times_us.append("err")
+
+            match = re.search(r"zero density macrocells:\s*(\d+)", result.stdout)
+            if match:
+                zero_density_macrocells.append(match.group(1))
+            else:
+                zero_density_macrocells.append("err")
+
             f.write(f"{config['name'].upper()}:\n")
             f.write(result.stdout)
 
@@ -115,14 +134,24 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
 
             f.write('\n\n')
             f.flush()
-            # break
+
+    results_file = Path(out_dir) / 'results.txt'
+    with open(results_file, 'w') as f:
+        f.write('# benchmark frame count on the first line, config names on the second line, number of skipped/zero density macrocells on the third line, '
+            'rendering times in milliseconds on the fourth line, and rendering times in microseconds on the fifth line\n')
+        f.write(f"{frame_count}\n")
+        f.write(','.join([x['name'] for x in configs]) + '\n')
+        f.write(','.join(zero_density_macrocells) + '\n')
+        f.write(','.join(times_ms) + '\n')
+        f.write(','.join(times_us) + '\n')
+
 
 if __name__ == '__main__':
     benchmark_frame_count = str(1000)
 
-    # Barycentric traversal, vertex samples, no macrocell
+    # Barycentric traversal, vertex samples, with macrocell enabled
     run_benchmark(
-        '../build/tet_amr_volume_render_b',
+        '../build/tet_amr_volume_render_b_m',
         'tet_amr_mri_tf_opacity_steps_raymarcher',
         'raymarcher',
         benchmark_frame_count

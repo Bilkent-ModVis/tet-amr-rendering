@@ -15,9 +15,9 @@ A common approach for visualizing Tet-AMR data is to flatten the hierarchy into 
 
 This repository implements a direct volume rendering method that preserves the Tet-AMR hierarchy during rendering. Instead of storing all refined elements, only the coarse mesh and refinement trees are stored. During rendering, finer-level tetrahedra are generated on the fly by traversing the refinement hierarchy.
 
-## Third-Party Libraries
+## Third-Party Libraries and Software
 
-The following third-party libraries were used in the development of this work:
+The following third-party libraries and software were used in the development of this work:
 
 - [Optix 7.7](https://developer.nvidia.com/rtx/ray-tracing/optix)
 - [OWL: A Productivity Library for OptiX](https://github.com/NVIDIA/OWL)
@@ -26,49 +26,64 @@ The following third-party libraries were used in the development of this work:
 - [Imgui](https://github.com/ocornut/imgui)
 - [Tetgen](https://wias-berlin.de/software/index.jsp?id=TetGen&lang=1)
 - [CLI11](https://github.com/cliutils/cli11)
+- [Micromamba](https://github.com/mamba-org/micromamba-releases)
 
 ## Build and Usage
 
 ### Prerequisites
 
-All development and benchmarking for this work were performed on Ubuntu 24.04.
+All development and benchmarking for this work were performed on Ubuntu 24.04. Running the renderer requires an NVIDIA GPU with hardware ray-tracing support, along with a compatible NVIDIA driver.
 
-* Install [CUDA Toolkit 12.8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
-    * CUDA 13 is not supported because it breaks compatibility with the version of OWL used in this project.
-* Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to the OptiX installation directory.
+Before building:
+* Make sure NVIDIA Linux driver version >=570.26 is installed on the system.
+* Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to point to the OptiX installation directory.
 * Install the required system packages. On Ubuntu 24.04.4:
 
 ```bash
-sudo apt install build-essential git cmake zstd \
+sudo apt install build-essential git cmake libzstd-dev \
     libxrandr-dev libxinerama-dev libxcursor-dev \
     libxi-dev libglfw3-dev
 ```
-
-#### VTK
-
-VTK is required. However, the `libvtk9-dev` package provided by Ubuntu 24.04 does not correctly read the volume VTU
-files used by this project.
-
-To avoid this issue, [build VTK from source](https://docs.vtk.org/en/latest/build_instructions/index.html) and point CMake to the installation directory with `-DVTK_DIR`. Versions
-9.3.1 and 9.6.2 have been tested successfully.
-
 ### Building
 
-After cloning the repository:
+Clone the repository with:
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/Bilkent-ModVis/tet-amr-rendering.git
+```
 
+#### Automatic Build
+The project includes scripts for building:
+```bash
+./build.sh
+```
+Builds the project.
+
+```bash
+./build_and_run.sh
+```
+Builds the project and runs the ```mri_tf_opacity_steps_benchmarks.py``` benchmark, which provides the data for Table 3 in the related publication, in ```benchmark/tet_amr_mri_tf_opacity_steps_raymarcher/results.txt```.
+
+
+#### Manual Build
+The manual build uses the system packages for the CUDA toolkit and VTK.
+
+* Install [CUDA Toolkit 12.8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
+    * CUDA 13 is not supported because it breaks compatibility with the version of Optix/OWL used in this project.
+* Install VTK
+    * ```sudo apt install libvtk9-dev```
+    * However, the `libvtk9-dev` package provided by Ubuntu 24.04 does not correctly read the volume VTU files used by this project. To avoid this issue, [build and install VTK from source](https://docs.vtk.org/en/latest/build_instructions/index.html) and point CMake to the installation directory with `-DVTK_DIR`. Versions 9.3.1 and 9.6.2 have been tested successfully.
+
+Then run:
 ```bash
 git submodule update --init --recursive
 
-mkdir build
-cd build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+      -DVTK_DIR=$VTK_INSTALL_DIR
 
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DVTK_DIR=$VTK_INSTALL_DIR \
-      ..
-
-cmake --build . -j
+cmake --build build -j
 ```
 
+#### Build Artifacts
 The build produces the following binaries:
 
 | Binary                               | Description                                                                                          |
@@ -101,6 +116,10 @@ compilation by removing the `USE_FILE_CACHE` macro definition from main.cpp.
 ### Benchmarks
 
 The benchmarks that reproduce the results in the related publication are available in the `benchmarks` directory.
+
+### Data
+
+If you experience any problems downloading the data, please contact us.
 
 ## Citation
 

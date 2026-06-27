@@ -1,3 +1,4 @@
+import re
 import subprocess
 from pathlib import Path
 
@@ -73,9 +74,9 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
         options = common_options
 
     Path(out_dir).mkdir(parents=True, exist_ok=True)
-    results_file = Path(out_dir) / 'results.txt'
+    log_file = Path(out_dir) / 'log.txt'
 
-    with open(results_file, 'w') as f:
+    with open(log_file, 'w') as f:
         for config in configs:
             tmp_flags = flags
             if 'flags' in config:
@@ -87,6 +88,21 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
             result = subprocess.run(cmd, capture_output=True, text=True)
             print("Done")
 
+            if config['name'] == 'engine':
+                threshold_match = re.search(r"Refinement threshold values:\s*\n([^\n]+)", result.stdout)
+                time_match = re.search(r"Rendering times:\s*\n([^\n]+)", result.stdout)
+
+                results_file = Path(out_dir) / 'results.txt'
+                with open(results_file, 'w') as fr:
+                    fr.write("# varying refinement thresholds for the engine dataset\n")
+                    fr.write("# benchmark frame count on the first line, refinement thresholds on the second line, and the rendering times in milliseconds on the third line\n")
+                    fr.write(f"{frame_count}\n")
+                    if threshold_match and time_match:
+                        fr.write(threshold_match.group(1).strip() + '\n')
+                        fr.write(time_match.group(1).strip() + '\n')
+                    else:
+                        fr.write('err\nerr\n')
+
             f.write(f"{config['name'].upper()}:\n")
             f.write(result.stdout)
 
@@ -96,7 +112,6 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, flags=None, o
 
             f.write('\n\n')
             f.flush()
-            # break
 
 if __name__ == '__main__':
     benchmark_frame_count = str(100)

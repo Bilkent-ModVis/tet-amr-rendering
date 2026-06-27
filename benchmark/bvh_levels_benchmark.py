@@ -1,3 +1,4 @@
+import re
 import subprocess
 from pathlib import Path
 
@@ -59,11 +60,16 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, max_level, fl
         options = common_options
 
     Path(out_dir).mkdir(parents=True, exist_ok=True)
-    results_file = Path(out_dir) / 'results.txt'
+    log_file = Path(out_dir) / 'log.txt'
 
-    with open(results_file, 'w') as f:
+    names=[]
+    times_ms = []
+    times_us = []
+
+    with open(log_file, 'w') as f:
         for config in configs:
             for i in range(max_level + 1):
+                names.append(f'{config["name"]}_{i}')
                 tmp_options = {**options, '--coarse_mesh_level': str(i)}
 
                 print(f"Running config {config['name']}")
@@ -71,6 +77,14 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, max_level, fl
                 print(" ".join([str(x) for x in cmd]))
                 result = subprocess.run(cmd, capture_output=True, text=True)
                 print("Done")
+
+                match = re.search(r"Rendering took\s+(\d+)\s+ms\s*/\s*(\d+)\s+us", result.stdout)
+                if match:
+                    times_ms.append(match.group(1))
+                    times_us.append(match.group(2))
+                else:
+                    times_ms.append("err")
+                    times_us.append("err")
 
                 f.write(f"{config['name'].upper()} uniform max level {i}:\n")
                 f.write(result.stdout)
@@ -81,7 +95,16 @@ def run_benchmark(program_path, out_dir, render_mode, frame_count, max_level, fl
 
                 f.write('\n\n')
                 f.flush()
-                # break
+
+    results_file = Path(out_dir) / 'results.txt'
+    with open(results_file, 'w') as f:
+        f.write('# benchmark frame count on the first line, config names on the second line, rendering times in milliseconds on the '
+        'third line, and rendering times in microseconds on the fourth line\n')
+        f.write(f"frame count: {frame_count}\n")
+        f.write(','.join(names) + '\n')
+        f.write(','.join(times_ms) + '\n')
+        f.write(','.join(times_us) + '\n')
+
 
 if __name__ == '__main__':
     benchmark_frame_count = str(1000)
