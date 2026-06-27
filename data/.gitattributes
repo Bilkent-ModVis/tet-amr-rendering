@@ -1,0 +1,7 @@
+advection.zip filter=lfs diff=lfs merge=lfs -text
+carp.zip filter=lfs diff=lfs merge=lfs -text
+engine.zip filter=lfs diff=lfs merge=lfs -text
+engine_uniform.zip filter=lfs diff=lfs merge=lfs -text
+heptane.zip filter=lfs diff=lfs merge=lfs -text
+mri.zip filter=lfs diff=lfs merge=lfs -text
+torus.zip filter=lfs diff=lfs merge=lfs -text
