@@ -853,7 +853,6 @@ void TetForest::create_neighborhood_info() {
             }
         }
     }
-    std::cout << "max level diff: " << max_level_diff << std::endl;
 }
 
 inline std::array<TetID_t, 3>

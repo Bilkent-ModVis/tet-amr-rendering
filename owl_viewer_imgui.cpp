@@ -98,8 +98,6 @@ void OWLViewerImgui::showAndRun(std::function<bool()> keepgoing) {
     init_imgui(handle);
 
     ImGui::GetIO().Fonts->AddFontDefault();
-    font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../fonts/Roboto-Regular.ttf", 25.0f, nullptr,
-                                                    ImGui::GetIO().Fonts->GetGlyphRangesDefault());
 
     glfwSetFramebufferSizeCallback(handle, glfwindow_reshape_cb);
     glfwSetMouseButtonCallback(handle, glfwindow_mouseButton_cb);

@@ -8,7 +8,6 @@ struct OWLViewerImgui : public owl::viewer::OWLViewer {
     inline static bool continue_rotate_left{false};
     inline static bool continue_move_forward{false};
     inline static bool continue_move_back{false};
-    struct ImFont *font{nullptr};
 
     OWLViewerImgui();
     OWLViewerImgui(const std::string &title);

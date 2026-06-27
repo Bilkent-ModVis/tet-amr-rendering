@@ -52,15 +52,10 @@ void Viewer::imgui_ui_func() {
         const auto toWindowCoord = [clipMin](const ImVec2 v) { return ImVec2{v.x + clipMin.x, v.y + clipMin.y}; };
         const auto drawText = [&](const ImVec2 pos, const std::string &str,
                                   ImVec4 color = {255.f, 255.f, 255.f, 255.f}) {
-            drawList->AddText(font, 25.f, toWindowCoord(pos), ImGui::ColorConvertFloat4ToU32(color), str.c_str());
+            drawList->AddText(nullptr, 25.f, toWindowCoord(pos), ImGui::ColorConvertFloat4ToU32(color), str.c_str());
         };
 
-        std::string tmp_filename = filename;
-        if (filename == "large_large_engine.vtu") {
-            tmp_filename = "engine.vtu";
-        }
-
-        drawText({10.f, 10.f}, std::format("File path: {}", tmp_filename));
+        drawText({10.f, 10.f}, std::format("File path: {}", filename));
 
         drawText({10.f, 35.f}, std::format("Resolution: {}x{}", renderer->frame.size.x, renderer->frame.size.y));
 
