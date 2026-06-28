@@ -1,5 +1,9 @@
 # Direct Volume Rendering of Tree-based Tetrahedral Adaptive Mesh Refinement Data
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/Bilkent-ModVis/tet-amr-rendering/fdad48acabf06f1f5e364f55433c085aeab39a76/representative.png" alt="Representative Image" width="400">
+</p>
+
 Related publication: 
 
 > **Direct Volume Rendering of Tree-Based Tetrahedral Adaptive Mesh Refinement Data**  
@@ -40,7 +44,7 @@ Before building:
 * Install the required system packages. On Ubuntu 24.04.4:
 
 ```bash
-sudo apt install build-essential git git-lfs cmake \ 
+sudo apt install build-essential git git-lfs cmake \
     libzstd-dev libxrandr-dev libxinerama-dev \
     libxcursor-dev libxi-dev libglfw3-dev
 ```
@@ -48,7 +52,7 @@ sudo apt install build-essential git git-lfs cmake \
 
 Clone the repository with:
 ```bash
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/Bilkent-ModVis/tet-amr-rendering.git
+git clone https://github.com/Bilkent-ModVis/tet-amr-rendering.git
 ```
 
 #### Automatic Build
@@ -120,7 +124,7 @@ The benchmarks that reproduce the results in the related publication are availab
 
 ### Data
 
-If you experience any problems downloading the data, please contact us.
+The data files are available on the [data branch](https://github.com/Bilkent-ModVis/tet-amr-rendering/tree/data). If you experience any problems downloading the data, please contact us.
 
 ## Citation
 
