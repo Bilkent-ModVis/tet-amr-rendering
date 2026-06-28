@@ -26,7 +26,6 @@ The following third-party libraries and software were used in the development of
 - [Imgui](https://github.com/ocornut/imgui)
 - [Tetgen](https://wias-berlin.de/software/index.jsp?id=TetGen&lang=1)
 - [CLI11](https://github.com/cliutils/cli11)
-- [Micromamba](https://github.com/mamba-org/micromamba-releases)
 
 ## Build and Usage
 
@@ -36,13 +35,14 @@ All development and benchmarking for this work were performed on Ubuntu 24.04. R
 
 Before building:
 * Make sure NVIDIA Linux driver version >=570.26 is installed on the system.
+    * On Ubuntu 24.04 the recommended driver can be installed with ```sudo ubuntu-drivers install```, refer to [Ubuntu Docs](https://ubuntu.com/server/docs/how-to/graphics/install-nvidia-drivers/) for more info.
 * Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to point to the OptiX installation directory.
 * Install the required system packages. On Ubuntu 24.04.4:
 
 ```bash
-sudo apt install build-essential git cmake libzstd-dev \
-    libxrandr-dev libxinerama-dev libxcursor-dev \
-    libxi-dev libglfw3-dev
+sudo apt install build-essential git git-lfs cmake \ 
+    libzstd-dev libxrandr-dev libxinerama-dev \
+    libxcursor-dev libxi-dev libglfw3-dev
 ```
 ### Building
 
@@ -52,7 +52,8 @@ GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/Bilkent-ModVis/tet-amr-render
 ```
 
 #### Automatic Build
-The project includes scripts for building:
+
+The project includes scripts for building with the CUDA Toolkit and VTK packages from conda-forge using [Micromamba](https://github.com/mamba-org/micromamba-releases):
 ```bash
 ./build.sh
 ```
