@@ -1,0 +1,26 @@
+Title:   Direct Volume Rendering of Tree-Based Tetrahedral Adaptive Mesh Refinement Data
+Authors: Musa Ege Ünalan, Serkan Demirci, Stefan Zellmann, Uğur Güdükbay
+Venue:   Computers & Graphics, Volume 138, 2026 (Shape Modelling section)
+
+Operating system used for development and testing:
+    Ubuntu 24.04. Running the renderer requires an NVIDIA GPU with hardware 
+    ray-tracing support, NVIDIA Linux driver version >=570.26, and OptiX 7.7.
+
+How to build and reproduce:
+    1. Install the required system packages:
+       sudo apt install build-essential git git-lfs cmake libzstd-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libglfw3-dev
+    2. Install OptiX 7.7 and set the `OptiX_INSTALL_DIR` environment variable 
+       to point to the OptiX installation directory.
+    3. git clone https://github.com/Bilkent-ModVis/tet-amr-rendering.git
+    4. cd tet-amr-rendering
+    5. ./build_and_run
+
+Representative result reproduced:
+    Running the automated script executes the `mri_tf_opacity_steps_benchmarks.py` 
+    benchmark. This provides the data for Table 3 in the related publication. 
+    Results are exported to `benchmark/tet_amr_mri_tf_opacity_steps_raymarcher/results.txt`.
+
+Dataset: 
+    The MRI dataset required for the `mri_tf_opacity_steps_benchmarks.py` benchmark 
+    is included in the main branch of the repository. Other data files are available 
+    on the "data" branch.
