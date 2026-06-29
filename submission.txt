@@ -13,7 +13,7 @@ How to build and reproduce:
        to point to the OptiX installation directory.
     3. git clone https://github.com/Bilkent-ModVis/tet-amr-rendering.git
     4. cd tet-amr-rendering
-    5. ./build_and_run
+    5. ./build_and_run.sh
 
 Representative result reproduced:
     Running the automated script executes the `mri_tf_opacity_steps_benchmarks.py` 
