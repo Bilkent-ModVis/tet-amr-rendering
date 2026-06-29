@@ -4,6 +4,8 @@ cd -- "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 git submodule update --init --recursive
 
 mkdir build
+wget -O - https://github.com/NVIDIA/optix-dev/archive/refs/tags/v7.7.0.tar.gz | tar -xvz -C build
+export OptiX_INSTALL_DIR="$(realpath "build/optix-dev-7.7.0")"
 wget -O - https://micro.mamba.pm/api/micromamba/$(uname)-$(uname -m)/latest | tar -xvj --strip-components=1 -C build bin/micromamba
 MAMBA="$(realpath "build/micromamba")"
 mkdir build/mamba_env
@@ -19,4 +21,3 @@ cmake -S . -B build \
 	-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++ \
   	-DCMAKE_CUDA_HOST_COMPILER:FILEPATH=/usr/bin/g++
 cmake --build build -j
-

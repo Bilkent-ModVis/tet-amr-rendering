@@ -40,7 +40,6 @@ All development and benchmarking for this work were performed on Ubuntu 24.04. R
 Before building:
 * Make sure NVIDIA Linux driver version >=570.26 is installed on the system.
     * On Ubuntu 24.04 the recommended driver can be installed with ```sudo ubuntu-drivers install```, refer to [Ubuntu Docs](https://ubuntu.com/server/docs/how-to/graphics/install-nvidia-drivers/) for more info.
-* Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to point to the OptiX installation directory.
 * Install the required system packages. On Ubuntu 24.04.4:
 
 ```bash
@@ -74,6 +73,7 @@ The manual build uses the system packages for the CUDA toolkit and VTK.
 
 * Install [CUDA Toolkit 12.8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
     * CUDA 13 is not supported because it breaks compatibility with the version of Optix/OWL used in this project.
+* Install [OptiX 7.7](https://developer.nvidia.com/designworks/optix/downloads/legacy) and set the `OptiX_INSTALL_DIR` environment variable to point to the OptiX installation directory.
 * Install VTK
     * ```sudo apt install libvtk9-dev```
     * However, the `libvtk9-dev` package provided by Ubuntu 24.04 does not correctly read the volume VTU files used by this project. To avoid this issue, [build and install VTK from source](https://docs.vtk.org/en/latest/build_instructions/index.html) and point CMake to the installation directory with `-DVTK_DIR`. Versions 9.3.1 and 9.6.2 have been tested successfully.
